@@ -1,5 +1,6 @@
 package com.personal.pizzeria.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,5 +36,6 @@ public class OrderItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_order", referencedColumnName = "id_order", insertable = false, updatable = false)
+    @JsonIgnore     //Para evitar conflicto con OneToMany de OrderEntity y ManyToOne de OrderItemEntity, si no se añade se genera recursividad infinita
     private OrderEntity order;
 }

@@ -1,5 +1,6 @@
 package com.personal.pizzeria.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,11 +35,13 @@ public class OrderEntity {
     @Column(name = "additional_notes", length = 200)
     private String additionalNotes;
 
-    @OneToOne
+    //LAZY: los datos de la entidad relacionada no se cargarán de la base de datos hasta que se acceda explícitamente a ellos en el código.
+    @OneToOne(fetch = FetchType.LAZY) //Lazy es para que no se cargue la relacion sino hasta que se use, si no se usa no va a cargar la relacion como es en este caso
     @JoinColumn(name = "id_customer", referencedColumnName = "id_customer", insertable = false, updatable = false)
+    @JsonIgnore                         //A pesar de poner el JsonIgnore, se siguen haciendo cinco consultas a la bd para obtener los clientes si no ponemos el fetchType LAZY
     private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER) //Eager es para que cuando se trate de recuperar un OrderEntity automaticamente tambien cargue esta relacion
     private List<OrderItemEntity> items;
 
 }
