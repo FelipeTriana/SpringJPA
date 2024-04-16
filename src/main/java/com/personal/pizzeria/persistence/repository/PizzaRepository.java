@@ -1,4 +1,7 @@
 package com.personal.pizzeria.persistence.repository;
 
-public interface PizzaRepository {
+import com.personal.pizzeria.persistence.entity.PizzaEntity;
+import org.springframework.data.repository.ListCrudRepository;
+
+public interface PizzaRepository extends ListCrudRepository<PizzaEntity, Integer>{
 }
