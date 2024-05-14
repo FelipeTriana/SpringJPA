@@ -5,6 +5,7 @@ import com.personal.pizzeria.persistence.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,4 +21,7 @@ public class OrderService {
         return this.orderRepository.findAll();
     }
 
+    public List<OrderEntity> getTodayOrders(){
+        return this.orderRepository.findAllByDateAfter(LocalDate.now().atTime(0, 0));
+    }
 }
