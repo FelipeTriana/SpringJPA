@@ -42,8 +42,13 @@ public class PizzaService {
         return this.pizzaRepository.findAllByAvailableTrueOrderByPrice();
     }
 
+    public int getVeganPizzas(){
+        return this.pizzaRepository.countAllByVeganTrue();
+    }
+
+
     public PizzaEntity getByName(String name){
-        return this.pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
+        return this.pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Pizza not found"));
     }
 
     public List<PizzaEntity> getByIngredient(String ingredient){
@@ -53,5 +58,6 @@ public class PizzaService {
     public List<PizzaEntity> getWithout(String ingredient){
         return this.pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
     }
+
 
 }

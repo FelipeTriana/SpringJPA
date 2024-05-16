@@ -6,11 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class OrderService {
+
     private final OrderRepository orderRepository;
+
+    private static final String DELIVERY = "D";
+    private static final String CARRYOUT = "C";
+    private static final String ON_SITE = "S";
 
     @Autowired
     public OrderService(OrderRepository orderRepository) {
@@ -23,5 +29,10 @@ public class OrderService {
 
     public List<OrderEntity> getTodayOrders(){
         return this.orderRepository.findAllByDateAfter(LocalDate.now().atTime(0, 0));
+    }
+
+    public List<OrderEntity> getOutsideOrders(){
+        List<String> methods = Arrays.asList(DELIVERY,CARRYOUT);
+        return this.orderRepository.findAllByMethodIn(methods);
     }
 }

@@ -58,6 +58,11 @@ public class PizzaController {
         return ResponseEntity.ok(this.pizzaService.getAvailable());
     }
 
+    @GetMapping("/vegannumber")
+    public ResponseEntity<String> getVeganNumber(){
+        return ResponseEntity.ok("El numero de pizzas veganas es: " + this.pizzaService.getVeganPizzas());
+    }
+
     @GetMapping("/name/{namePizza}")
     public ResponseEntity<PizzaEntity> getByName(@PathVariable String namePizza){
         return ResponseEntity.ok(this.pizzaService.getByName(namePizza));
@@ -72,6 +77,5 @@ public class PizzaController {
     public ResponseEntity<List<PizzaEntity>> getWithout(@PathVariable String ingredient){
         return ResponseEntity.ok(this.pizzaService.getWithout(ingredient));
     }
-
 
 }
