@@ -65,6 +65,15 @@ public class PizzaController {
         return ResponseEntity.ok(this.pizzaService.getAvailable());
     }
 
+    //Esta funcion mostrara las pizzas disponibles paginadas y ordenadas por el parametro que se le pase (Que por defecto es el pecio)
+    @GetMapping("/available/PagSort") //Notese que no es necesario enviarle parametros (Revisar esta consulta en la coleccion de postman)
+    public ResponseEntity<Page<PizzaEntity>> getAvailablePagingSort(@RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "8") int elements,
+                                                                    @RequestParam(defaultValue = "price") String sortBy,    //Se ordena por precio por defecto
+                                                                    @RequestParam(defaultValue = "ASC") String sortDirection){  //Se ordena de forma ascendente por defecto
+        return ResponseEntity.ok(this.pizzaService.getAvailablePagingSort(page, elements, sortBy, sortDirection));
+    }
+
     @GetMapping("/vegannumber")
     public ResponseEntity<String> getVeganNumber(){
         return ResponseEntity.ok("El numero de pizzas veganas es: " + this.pizzaService.getVeganPizzas());
