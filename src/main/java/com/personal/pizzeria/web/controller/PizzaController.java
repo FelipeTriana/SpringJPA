@@ -3,6 +3,7 @@ package com.personal.pizzeria.web.controller;
 import com.personal.pizzeria.persistence.entity.PizzaEntity;
 import com.personal.pizzeria.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,12 @@ public class PizzaController {
     @GetMapping
     public ResponseEntity<List<PizzaEntity>> getAll(){
         return ResponseEntity.ok(this.pizzaService.getAll());
+    }
+
+    @GetMapping("/getPage") //Notese que no es necesario enviarle parametros (Revisar esta consulta en la coleccion de postman)
+    public ResponseEntity<Page<PizzaEntity>> getAllPaging(@RequestParam(defaultValue = "0") int page,
+                                                          @RequestParam(defaultValue = "8") int elements){
+        return ResponseEntity.ok(this.pizzaService.getAllPaging(page, elements));
     }
 
     @GetMapping("/{idPizza}")
