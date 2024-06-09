@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,6 +43,7 @@ public class OrderEntity {
     private CustomerEntity customer;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER) //Eager es para que cuando se trate de recuperar un OrderEntity automaticamente tambien cargue esta relacion
+    @OrderBy("price ASC")
     private List<OrderItemEntity> items;
 
 }
