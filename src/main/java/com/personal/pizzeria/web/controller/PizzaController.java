@@ -2,6 +2,7 @@ package com.personal.pizzeria.web.controller;
 
 import com.personal.pizzeria.persistence.entity.PizzaEntity;
 import com.personal.pizzeria.service.PizzaService;
+import com.personal.pizzeria.service.dto.UpdatePizzaPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -92,6 +93,15 @@ public class PizzaController {
     @GetMapping("/without/{ingredient}")
     public ResponseEntity<List<PizzaEntity>> getWithout(@PathVariable String ingredient){
         return ResponseEntity.ok(this.pizzaService.getWithout(ingredient));
+    }
+
+    @PutMapping("/price")
+    public ResponseEntity<Void> updatePrice(@RequestBody UpdatePizzaPriceDto dto){
+        if (this.pizzaService.exists(dto.getPizzaId())) {
+            this.pizzaService.updatePrice(dto);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }

@@ -3,6 +3,7 @@ package com.personal.pizzeria.service;
 import com.personal.pizzeria.persistence.entity.PizzaEntity;
 import com.personal.pizzeria.persistence.repository.PizzaPagSortRepository;
 import com.personal.pizzeria.persistence.repository.PizzaRepository;
+import com.personal.pizzeria.service.dto.UpdatePizzaPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -78,5 +80,17 @@ public class PizzaService {
         return this.pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
     }
 
+    /*Muy importante usar esta etiqueta sobre todo cuando tenemos mas de un llamado a la base de datos en la misma funcion para que la operacion no quede a medias, ejecuta todo o no se ejecuta nada
+      Con el parametro noRollbackFor se puede especificar que excepciones no queremos que detengan la transaccion, un ejemplo:
+
+      @Transactional(noRollbackFor = EmailApiException.class), si se presenta una excepcion de este tipo NO hara rollback
+
+
+      La propiedad propagation determina si se debe existir una transaccion para poder ejecutar el metodo
+    * */
+    @Transactional     //Esta anotacion garantiza tener cubiertas las 4 propiedades ACID
+    public void updatePrice(UpdatePizzaPriceDto dto){
+        this.pizzaRepository.updatePrice(dto);
+    }
 
 }
