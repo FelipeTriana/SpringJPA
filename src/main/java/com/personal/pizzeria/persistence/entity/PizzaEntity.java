@@ -43,10 +43,12 @@ public class PizzaEntity {
 
     @Column(name = "created_date")
     @CreatedDate
+    @JsonIgnore                         //Para que no se muestren estos dos campos en el json de respuesta y solo se vean desde base de datos
     private LocalDateTime createdDate;
 
     @Column(name = "modified_date")
     @LastModifiedDate
+    @JsonIgnore
     private LocalDateTime modifiedDate;
 
 }
